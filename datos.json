@@ -1,0 +1,9 @@
+{
+  "inventario": [
+    { "id": "PROD001", "nombre": "Cuaderno Scribe", "stock": 50 },
+    { "id": "PROD002", "nombre": "Lapicero Azul", "stock": 120 }
+  ],
+  "deudores": [
+    { "nombre": "Juan Pérez", "telefono": "982 054 321", "monto": 15.50 }
+  ]
+}
