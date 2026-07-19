@@ -8,22 +8,81 @@
 </head>
 <body>
 
-    <div class="cabecera">
-        INVENTARIO
+    <div class="contenedor-celular">
+
+        <div id="pantalla-menu" class="pantalla">
+            <h2 style="text-align: center; margin-top: 40px;">I.E. Santa Magdalena</h2>
+            <p style="text-align: center; color: gray;">Bienvenido a tu negocio</p>
+            
+            <div style="margin-top: 40px;">
+                <button class="btn-menu" onclick="irA('pantalla-inventario')">INVENTARIO</button>
+                <button class="btn-menu" onclick="irA('pantalla-ventas')">REGISTRO DE VENTAS</button>
+                <button class="btn-menu" onclick="irA('pantalla-deudores')">MIS GANANCIAS / DEUDORES</button>
+            </div>
+        </div>
+
+        <div id="pantalla-inventario" class="pantalla oculto">
+            <div class="cabecera">
+                <button class="btn-regresar" onclick="irA('pantalla-menu')">←</button>
+                INVENTARIO
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Stok</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-inventario-cuerpo"></tbody>
+            </table>
+            <button class="btn-principal">AGREGAR PRODUCTO</button>
+        </div>
+
+        <div id="pantalla-ventas" class="pantalla oculto">
+            <div class="cabecera">
+                <button class="btn-regresar" onclick="irA('pantalla-menu')">←</button>
+                REGISTRO DE VENTAS
+            </div>
+            <p style="font-size: 14px; color: gray; text-align: space-between;">
+                <span>Fecha: 18/07/26</span> | <span>Hora: 12:00</span>
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cant.</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Cuaderno</td>
+                        <td>2</td>
+                        <td>S/10.00</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="background: #f8fafc; padding: 15px; border-radius: 6px; border: 1px solid #e0e0e0;">
+                <p><b>TOTAL A PAGAR:</b> S/10.00</p>
+                <p><b>Pago recibido:</b> S/20.00</p>
+                <p style="color: #6366F1;"><b>Cambio:</b> S/10.00</p>
+            </div>
+        </div>
+
+        <div id="pantalla-deudores" class="pantalla oculto">
+            <div class="cabecera">
+                <button class="btn-regresar" onclick="irA('pantalla-menu')">←</button>
+                MIS DEUDORES
+            </div>
+            <div style="margin: 15px 0; text-align: center; border: 1px solid #ccc; padding: 10px; border-radius: 6px;">
+                <small>Total de deudores</small>
+                <h3 id="contador-deudores" style="margin:5px 0;">0</h3>
+            </div>
+            <div id="lista-deudores"></div>
+            <button class="btn-principal" style="margin-top: 15px;">+ NUEVO DEUDOR</button>
+        </div>
+
     </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Producto</th>
-                <th>Stok</th>
-            </tr>
-        </thead>
-        <tbody id="tabla-cuerpo">
-            </tbody>
-    </table>
-
-    <button class="btn-principal">AGREGAR PRODUCTO</button>
 
     <script src="script.js"></script>
 </body>
