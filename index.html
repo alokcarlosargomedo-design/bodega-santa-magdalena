@@ -68,13 +68,11 @@
             
             <table>
                 <thead><tr><th>Producto</th><th>Cant.</th><th>Total</th></tr></thead>
-                <tbody id="tabla-ventas-cuerpo">
-                    <tr><td>Cuaderno</td><td>2</td><td>S/10.00</td></tr>
-                </tbody>
+                <tbody id="tabla-ventas-cuerpo"></tbody>
             </table>
 
             <div style="background: #f8fafc; padding: 15px; border-radius: 6px; border: 1px solid #e0e0e0; margin-bottom: 15px;">
-                <p><b>TOTAL A PAGAR:</b> S/<span id="venta-total">10.00</span></p>
+                <p><b>TOTAL A PAGAR:</b> S/<span id="venta-total">0.00</span></p>
                 <label style="font-size: 14px; font-weight: bold;">Pago Recibido (S/):</label>
                 <input type="number" id="pago-cliente" class="campo-texto" placeholder="Ej: 20" oninput="calcularCambio()" style="margin-top:5px;">
                 <p style="color: #6366F1; margin-bottom: 0;"><b>Cambio/Vuelto:</b> S/<span id="venta-cambio">0.00</span></p>
@@ -93,13 +91,10 @@
             
             <div style="margin: 15px 0; text-align: center; border: 1px solid #ccc; padding: 10px; border-radius: 6px; background: #fdfdfd;">
                 <small>Total de deudores activos</small>
-                <h3 id="contador-deudores" style="margin:5px 0; color: #DC2626;">2</h3>
+                <h3 id="contador-deudores" style="margin:5px 0; color: #DC2626;">0</h3>
             </div>
 
-            <div id="lista-deudores">
-                <div class="tarjeta-deudor"><span>Juan Pérez</span><span class="alerta-roja">S/15.00</span></div>
-                <div class="tarjeta-deudor"><span>María Quintanilla</span><span class="alerta-roja">S/32.50</span></div>
-            </div>
+            <div id="lista-deudores"></div>
 
             <div style="border: 1px solid #e0e0e0; padding: 12px; border-radius: 6px; background: #fafafa; margin-top: 15px;">
                 <input type="text" id="deudor-nombre" class="campo-texto" placeholder="Nombre del cliente">
@@ -112,7 +107,27 @@
 
     <script src="script.js"></script>
     <script>
-        // Funciones interactivas rápidas
+        // SISTEMA DE ALMACENAMIENTO PERMANENTE (Local Storage Cloud)
+        window.onload = function() {
+            cargarDatosPermanentes();
+        }
+
+        function guardarDatosPermanentes() {
+            localStorage.setItem('tabla_inventario', document.getElementById('tabla-inventario-cuerpo').innerHTML);
+            localStorage.setItem('tabla_ventas', document.getElementById('tabla-ventas-cuerpo').innerHTML);
+            localStorage.setItem('lista_deudores', document.getElementById('lista-deudores').innerHTML);
+            localStorage.setItem('total_ventas', document.getElementById('venta-total').innerText);
+            localStorage.setItem('total_deudores', document.getElementById('contador-deudores').innerText);
+        }
+
+        function cargarDatosPermanentes() {
+            if(localStorage.getItem('tabla_inventario')) document.getElementById('tabla-inventario-cuerpo').innerHTML = localStorage.getItem('tabla_inventario');
+            if(localStorage.getItem('tabla_ventas')) document.getElementById('tabla-ventas-cuerpo').innerHTML = localStorage.getItem('tabla_ventas');
+            if(localStorage.getItem('lista_deudores')) document.getElementById('lista-deudores').innerHTML = localStorage.getItem('lista_deudores');
+            if(localStorage.getItem('total_ventas')) document.getElementById('venta-total').innerText = localStorage.getItem('total_ventas');
+            if(localStorage.getItem('total_deudores')) document.getElementById('contador-deudores').innerText = localStorage.getItem('total_deudores');
+        }
+
         function calcularCambio() {
             var total = parseFloat(document.getElementById('venta-total').innerText);
             var pago = parseFloat(document.getElementById('pago-cliente').value) || 0;
@@ -127,7 +142,7 @@
             if(!prod || !cant || prec<=0) return alert("Completa los datos de la venta");
             
             var fila = `<tr><td>${prod}</td><td>${cant}</td><td>S/${prec.toFixed(2)}</td></tr>`;
-            document.getElementById('tabla-nav-cuerpo' ? 'tabla-ventas-cuerpo' : 'tabla-ventas-cuerpo').innerHTML += fila;
+            document.getElementById('tabla-ventas-cuerpo').innerHTML += fila;
             
             var totalActual = parseFloat(document.getElementById('venta-total').innerText);
             var nuevoTotal = totalActual + prec;
@@ -137,6 +152,7 @@
             document.getElementById('v-producto').value = "";
             document.getElementById('v-cantidad').value = "";
             document.getElementById('v-precio').value = "";
+            guardarDatosPermanentes();
         }
 
         function agregarDeudorNuevo() {
@@ -152,6 +168,7 @@
             
             document.getElementById('deudor-nombre').value = "";
             document.getElementById('deudor-monto').value = "";
+            guardarDatosPermanentes();
         }
     </script>
 </body>
