@@ -1,0 +1,46 @@
+/* Estilos globales basados en tus bocetos */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+    color: #333333;
+    margin: 0;
+    padding: 15px;
+}
+
+/* El banner superior de tus pantallas */
+.cabecera {
+    background-color: #6366F1; /* El color Azul Lavanda de tus botones principales */
+    color: white;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 8px 8px 0 0;
+}
+
+/* Las tablas de Inventario y Ventas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+th, td {
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+    text-align: left;
+}
+
+/* Los botones grandes como "INGRESAR" o "AGREGAR" */
+.btn-principal {
+    background-color: #6366F1;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
