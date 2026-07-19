@@ -10,7 +10,30 @@
 
     <div class="contenedor-celular">
 
-        <div id="pantalla-menu" class="pantalla">
+        <div id="pantalla-login" class="pantalla">
+            <h2 style="text-align: center; margin-top: 40px; color: #6366F1;">I.E. Santa Magdalena</h2>
+            <p style="text-align: center; color: gray;">Ingresa a tu cuenta</p>
+            
+            <div style="margin-top: 30px;">
+                <label style="display:block; margin-bottom:8px; font-weight:bold;">USUARIO</label>
+                <input type="text" id="login-usuario" class="campo-texto" placeholder="Escribe tu usuario">
+                
+                <label style="display:block; margin-top:15px; margin-bottom:8px; font-weight:bold;">CLAVE</label>
+                <input type="password" id="login-clave" class="campo-texto" placeholder="Escribe tu clave">
+                
+                <div style="margin-top: 15px; font-size: 14px;">
+                    <input type="checkbox" id="recordarme"> <label for="recordarme">Recordarme</label>
+                </div>
+                
+                <button class="btn-principal" style="margin-top: 30px;" onclick="iniciarSesion()">INGRESAR</button>
+                
+                <p style="text-align:center; margin-top:20px; font-size:14px; color:gray;">
+                    ¿No tienes cuenta? <a href="#" style="color:#6366F1; font-weight:bold;">Regístrate</a>
+                </p>
+            </div>
+        </div>
+
+        <div id="pantalla-menu" class="pantalla oculto">
             <h2 style="text-align: center; margin-top: 40px;">I.E. Santa Magdalena</h2>
             <p style="text-align: center; color: gray;">Bienvenido a tu negocio</p>
             
@@ -35,7 +58,12 @@
                 </thead>
                 <tbody id="tabla-inventario-cuerpo"></tbody>
             </table>
-            <button class="btn-principal">AGREGAR PRODUCTO</button>
+            
+            <div style="margin-top: 15px; border: 1px solid #e0e0e0; padding: 10px; border-radius: 6px;">
+                <input type="text" id="nuevo-nombre" class="campo-texto" placeholder="Nombre del producto" style="margin-bottom: 5px;">
+                <input type="number" id="nuevo-stock" class="campo-texto" placeholder="Cantidad / Stock">
+            </div>
+            <button class="btn-principal" style="margin-top: 10px;" onclick="agregarProductoNuevo()">AGREGAR PRODUCTO</button>
         </div>
 
         <div id="pantalla-ventas" class="pantalla oculto">
