@@ -17,9 +17,10 @@
         th, td { border: 1px solid #e0e0e0; padding: 12px; text-align: left; }
         th { background-color: #f8fafc; }
         .btn-principal { background-color: #6366F1; color: white; border: none; padding: 14px; width: 100%; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        .tarjeta-deudor { border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .campo-texto { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 15px; }
+        .tarjeta-deudor { border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; background: #fff; }
+        .campo-texto { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 15px; margin-bottom: 10px; }
         .campo-texto:focus { border-color: #6366F1; outline: none; }
+        .alerta-roja { color: #DC2626; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -29,22 +30,18 @@
         <div id="pantalla-login" class="pantalla">
             <h2 style="text-align: center; margin-top: 40px; color: #6366F1;">I.E. Santa Magdalena</h2>
             <p style="text-align: center; color: gray;">Ingresa a tu cuenta</p>
-            
             <div style="margin-top: 30px;">
-                <label style="display:block; margin-bottom:8px; font-weight:bold;">USUARIO</label>
+                <label style="font-weight:bold;">USUARIO</label>
                 <input type="text" id="login-usuario" class="campo-texto" placeholder="Escribe tu usuario">
-                
-                <label style="display:block; margin-top:15px; margin-bottom:8px; font-weight:bold;">CLAVE</label>
+                <label style="font-weight:bold;">CLAVE</label>
                 <input type="password" id="login-clave" class="campo-texto" placeholder="Escribe tu clave">
-                
-                <button class="btn-principal" style="margin-top: 30px;" onclick="iniciarSesion()">INGRESAR</button>
+                <button class="btn-principal" style="margin-top: 20px;" onclick="iniciarSesion()">INGRESAR</button>
             </div>
         </div>
 
         <div id="pantalla-menu" class="pantalla oculto">
             <h2 style="text-align: center; margin-top: 40px;">I.E. Santa Magdalena</h2>
             <p style="text-align: center; color: gray;">Bienvenido a tu negocio</p>
-            
             <div style="margin-top: 40px;">
                 <button class="btn-menu" onclick="irA('pantalla-inventario')">INVENTARIO</button>
                 <button class="btn-menu" onclick="irA('pantalla-ventas')">REGISTRO DE VENTAS</button>
@@ -53,49 +50,109 @@
         </div>
 
         <div id="pantalla-inventario" class="pantalla oculto">
-            <div class="cabecera">
-                <button class="btn-regresar" onclick="irA('pantalla-menu')">←</button>
-                INVENTARIO
-            </div>
+            <div class="cabecera"><button class="btn-regresar" onclick="irA('pantalla-menu')">←</button>INVENTARIO</div>
             <table>
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Stok</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>Producto</th><th>Stok</th></tr></thead>
                 <tbody id="tabla-inventario-cuerpo"></tbody>
             </table>
-            
-            <div style="margin-top: 15px; border: 1px solid #e0e0e0; padding: 10px; border-radius: 6px;">
-                <input type="text" id="nuevo-nombre" class="campo-texto" placeholder="Nombre del producto" style="margin-bottom: 5px;">
+            <div style="border: 1px solid #e0e0e0; padding: 12px; border-radius: 6px; background: #fafafa;">
+                <input type="text" id="nuevo-nombre" class="campo-texto" placeholder="Nombre del producto">
                 <input type="number" id="nuevo-stock" class="campo-texto" placeholder="Cantidad / Stock">
+                <button class="btn-principal" onclick="agregarProductoNuevo()">AGREGAR PRODUCTO</button>
             </div>
-            <button class="btn-principal" style="margin-top: 10px;" onclick="agregarProductoNuevo()">AGREGAR PRODUCTO</button>
         </div>
 
         <div id="pantalla-ventas" class="pantalla oculto">
-            <div class="cabecera">
-                <button class="btn-regresar" onclick="irA('pantalla-menu')">←</button>
-                REGISTRO DE VENTAS
-            </div>
+            <div class="cabecera"><button class="btn-regresar" onclick="irA('pantalla-menu')">←</button>REGISTRO DE VENTAS</div>
             <p style="font-size: 14px; color: gray; margin: 10px 0;">Fecha: 18/07/26 | Hora: 12:00</p>
+            
             <table>
                 <thead><tr><th>Producto</th><th>Cant.</th><th>Total</th></tr></thead>
-                <tbody><tr><td>Cuaderno</td><td>2</td><td>S/10.00</td></tr></tbody>
+                <tbody id="tabla-ventas-cuerpo">
+                    <tr><td>Cuaderno</td><td>2</td><td>S/10.00</td></tr>
+                </tbody>
             </table>
+
+            <div style="background: #f8fafc; padding: 15px; border-radius: 6px; border: 1px solid #e0e0e0; margin-bottom: 15px;">
+                <p><b>TOTAL A PAGAR:</b> S/<span id="venta-total">10.00</span></p>
+                <label style="font-size: 14px; font-weight: bold;">Pago Recibido (S/):</label>
+                <input type="number" id="pago-cliente" class="campo-texto" placeholder="Ej: 20" oninput="calcularCambio()" style="margin-top:5px;">
+                <p style="color: #6366F1; margin-bottom: 0;"><b>Cambio/Vuelto:</b> S/<span id="venta-cambio">0.00</span></p>
+            </div>
+
+            <div style="border: 1px solid #e0e0e0; padding: 12px; border-radius: 6px; background: #fafafa;">
+                <input type="text" id="v-producto" class="campo-texto" placeholder="Producto vendido">
+                <input type="number" id="v-cantidad" class="campo-texto" placeholder="Cantidad">
+                <input type="number" id="v-precio" class="campo-texto" placeholder="Precio Total (S/)">
+                <button class="btn-principal" onclick="agregarVentaNueva()">REGISTRAR VENTA</button>
+            </div>
         </div>
 
         <div id="pantalla-deudores" class="pantalla oculto">
-            <div class="cabecera">
-                <button class="btn-regresar" onclick="irA('pantalla-menu')">←</button>
-                MIS DEUDORES
+            <div class="cabecera"><button class="btn-regresar" onclick="irA('pantalla-menu')">←</button>MIS DEUDORES</div>
+            
+            <div style="margin: 15px 0; text-align: center; border: 1px solid #ccc; padding: 10px; border-radius: 6px; background: #fdfdfd;">
+                <small>Total de deudores activos</small>
+                <h3 id="contador-deudores" style="margin:5px 0; color: #DC2626;">2</h3>
             </div>
-            <div id="lista-deudores"></div>
+
+            <div id="lista-deudores">
+                <div class="tarjeta-deudor"><span>Juan Pérez</span><span class="alerta-roja">S/15.00</span></div>
+                <div class="tarjeta-deudor"><span>María Quintanilla</span><span class="alerta-roja">S/32.50</span></div>
+            </div>
+
+            <div style="border: 1px solid #e0e0e0; padding: 12px; border-radius: 6px; background: #fafafa; margin-top: 15px;">
+                <input type="text" id="deudor-nombre" class="campo-texto" placeholder="Nombre del cliente">
+                <input type="number" id="deudor-monto" class="campo-texto" placeholder="Monto que debe (S/)">
+                <button class="btn-principal" onclick="agregarDeudorNuevo()">+ AGREGAR NUEVO DEUDOR</button>
+            </div>
         </div>
 
     </div>
 
     <script src="script.js"></script>
+    <script>
+        // Funciones interactivas rápidas
+        function calcularCambio() {
+            var total = parseFloat(document.getElementById('venta-total').innerText);
+            var pago = parseFloat(document.getElementById('pago-cliente').value) || 0;
+            var cambio = pago - total;
+            document.getElementById('venta-cambio').innerText = cambio > 0 ? cambio.toFixed(2) : "0.00";
+        }
+
+        function agregarVentaNueva() {
+            var prod = document.getElementById('v-producto').value;
+            var cant = document.getElementById('v-cantidad').value;
+            var prec = parseFloat(document.getElementById('v-precio').value) || 0;
+            if(!prod || !cant || prec<=0) return alert("Completa los datos de la venta");
+            
+            var fila = `<tr><td>${prod}</td><td>${cant}</td><td>S/${prec.toFixed(2)}</td></tr>`;
+            document.getElementById('tabla-nav-cuerpo' ? 'tabla-ventas-cuerpo' : 'tabla-ventas-cuerpo').innerHTML += fila;
+            
+            var totalActual = parseFloat(document.getElementById('venta-total').innerText);
+            var nuevoTotal = totalActual + prec;
+            document.getElementById('venta-total').innerText = nuevoTotal.toFixed(2);
+            calcularCambio();
+            
+            document.getElementById('v-producto').value = "";
+            document.getElementById('v-cantidad').value = "";
+            document.getElementById('v-precio').value = "";
+        }
+
+        function agregarDeudorNuevo() {
+            var nom = document.getElementById('deudor-nombre').value;
+            var monto = parseFloat(document.getElementById('deudor-monto').value) || 0;
+            if(!nom || monto<=0) return alert("Ingresa nombre y monto válido");
+            
+            var tarjeta = `<div class="tarjeta-deudor"><span>${nom}</span><span class="alerta-roja">S/${monto.toFixed(2)}</span></div>`;
+            document.getElementById('lista-deudores').innerHTML += tarjeta;
+            
+            var cont = document.getElementById('contador-deudores');
+            cont.innerText = parseInt(cont.innerText) + 1;
+            
+            document.getElementById('deudor-nombre').value = "";
+            document.getElementById('deudor-monto').value = "";
+        }
+    </script>
 </body>
 </html>
